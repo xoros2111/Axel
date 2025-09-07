@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Axel — Оригинальная подготовка к экзамену</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      overflow-x: hidden;
+    }
+    .triangles-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .triangle {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      opacity: 0.18;
+    }
+    .t1 { top: 8%; left: 10%; background: linear-gradient(135deg, #e040fb 60%, #81d4fa 100%); color: #8e24aa;}
+    .t2 { top: 60%; left: 70%; background: linear-gradient(135deg, #bbdefb 60%, #f06292 100%); color: #3949ab;}
+    .t3 { top: 40%; left: 30%; background: linear-gradient(135deg, #e1bee7 60%, #81d4fa 100%); color: #d500f9;}
+    .t4 { top: 80%; left: 15%; background: linear-gradient(135deg, #f8bbd0 60%, #b388ff 100%); color: #ad1457;}
+    .t5 { top: 25%; left: 80%; background: linear-gradient(135deg, #81d4fa 60%, #e040fb 100%); color: #1976d2;}
+    .t6 { top: 70%; left: 40%; background: linear-gradient(135deg, #f06292 60%, #bbdefb 100%); color: #e040fb;}
+    .t7 { top: 15%; left: 70%; background: linear-gradient(135deg, #b388ff 60%, #f8bbd0 100%); color: #3949ab;}
+    .t8 { top: 55%; left: 20%; background: linear-gradient(135deg, #e1bee7 60%, #81d4fa 100%); color: #d500f9;}
+    .main-card {
+      background: #b8ffb8;
+      border-radius: 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 540px;
+      margin: 80px auto;
+      padding: 48px 36px;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .main-title {
+      color: #8e24aa;
+      font-size: 2.2em;
+      margin-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      animation: fadeInText 1.2s;
+    }
+    .main-desc {
+      color: #3949ab;
+      font-size: 1.15em;
+      margin-bottom: 32px;
+      animation: fadeInText 1.8s;
+      animation-delay: 0.5s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .btn {
+      padding: 16px 40px;
+      border-radius: 14px;
+      border: none;
+      font-size: 1.15em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .btn-enter { background: #1a237e; color: #fff; }
+    .btn-enter:hover { background: #283593; }
+    .section-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 10px;
+    }
+    .section-card {
+      background: linear-gradient(90deg, #e1bee7 0%, #bbdefb 100%);
+      border-radius: 16px;
+      padding: 28px 22px;
+      text-align: left;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: relative;
+      animation: fadeIn 1.2s;
+    }
+    .section-title {
+      color: #8e24aa;
+      font-size: 1.25em;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .section-desc {
+      color: #3949ab;
+      font-size: 1em;
+      margin-bottom: 18px;
+    }
+    .btn-section {
+      background: #d32f2f;
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 28px;
+      font-size: 1em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-section:hover { background: #b71c1c; }
+    .options-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 18px;
+      justify-content: center;
+    }
+    .option-card {
+      background: linear-gradient(135deg, #f8bbd0 60%, #b388ff 100%);
+      border-radius: 12px;
+      padding: 18px 16px;
+      min-width: 140px;
+      text-align: center;
+      color: #3949ab;
+      font-weight: 700;
+      font-size: 1.08em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: background 0.2s;
+    }
+    .option-card:hover { background: #e1bee7; }
+    .task-card {
+      background: #bbdefb;
+      border-radius: 14px;
+      padding: 28px 22px;
+      margin-top: 24px;
+      text-align: left;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: relative;
+      animation: fadeIn 1.2s;
+    }
+    .task-title {
+      color: #8e24aa;
+      font-size: 1.15em;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .task-input {
+      font-size: 1.1em;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #8e24aa;
+      margin-bottom: 14px;
+      width: 80px;
+      margin-right: 12px;
+    }
+    .btn-check {
+      background: #3949ab;
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 22px;
+      font-size: 1em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-check:hover { background: #1a237e; }
+    .btn-next {
+      background: #00c853;
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 22px;
+      font-size: 1em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background 0.2s;
+    }
+    .btn-next:hover { background: #388e3c; }
+    .explanation {
+      background: #fffde7;
+      color: #d32f2f;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-top: 12px;
+      font-size: 1em;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="triangles-bg">
+    <div class="triangle t1">2³</div>
+    <div class="triangle t2">√5</div>
+    <div class="triangle t3">7</div>
+    <div class="triangle t4">3²</div>
+    <div class="triangle t5">√16</div>
+    <div class="triangle t6">5⁴</div>
+    <div class="triangle t7">√9</div>
+    <div class="triangle t8">8²</div>
+  </div>
+  <div id="app"></div>
+  <script>
+    // Данные для разделов
+    const sections = [
+      {
+        title: "Математика для начинающих (1–4 классы)",
+        desc: "Включает простые задания: сложение, вычитание, умножение и деление.",
+        tasks: [
+          { gen: (lvl) => {
+            // Простые арифметические задачи
+            const a = Math.floor(Math.random() * (10 + lvl*2)) + 1;
+            const b = Math.floor(Math.random() * (10 + lvl*2)) + 1;
+            const ops = ["+", "-", "×", "÷"];
+            const op = ops[Math.floor(Math.random()*4)];
+            let answer, text;
+            if(op==="+") { answer=a+b; text=`${a} + ${b}`; }
+            if(op==="-") { answer=a-b; text=`${a} - ${b}`; }
+            if(op==="×") { answer=a*b; text=`${a} × ${b}`; }
+            if(op==="÷") { answer=a; text=`${a*b} ÷ ${b}`; }
+            return {text:`Вычислите: <b>${text}</b>`, answer, explanation:`Это простая операция: ${text} = ${answer}`};
+          }}
+        ]
+      },
+      {
+        title: "Математика для исследователей (5–8 классы)",
+        desc: "Включает дроби, степени, корни, задачи на геометрию.",
+        tasks: [
+          { gen: (lvl) => {
+            // Дроби, степени, корни, геометрия
+            if(lvl<4) {
+              // Дроби
+              const a = Math.floor(Math.random()*9)+1;
+              const b = Math.floor(Math.random()*9)+2;
+              return {text:`Сократите дробь: <b>${a*b}/${b*b}</b>`, answer:`${a}/${b}`, explanation:`${a*b}/${b*b} = ${a}/${b}`};
+            } else if(lvl<7) {
+              // Степени и корни
+              const base = Math.floor(Math.random()*6)+2;
+              const exp = Math.floor(Math.random()*2)+2;
+              return {text:`Вычислите: <b>${base}<sup>${exp}</sup></b>`, answer:Math.pow(base,exp), explanation:`${base} в степени ${exp} = ${Math.pow(base,exp)}`};
+            } else {
+              // Геометрия
+              const side = Math.floor(Math.random()*10)+3;
+              return {text:`Найдите периметр квадрата со стороной <b>${side}</b>`, answer:side*4, explanation:`Периметр квадрата = 4 × сторона = ${side*4}`};
+            }
+          }}
+        ]
+      },
+      {
+        title: "Математика для продвинутых (9–11 классы)",
+        desc: "Самые сложные задания по тематикам старших классов России.",
+        tasks: [
+          { gen: (lvl) => {
+            // Сложные задачи: уравнения, корни, степени
+            if(lvl<3) {
+              // Квадратные уравнения
+              const a = Math.floor(Math.random()*3)+1;
+              const b = Math.floor(Math.random()*10)-5;
+              const c = Math.floor(Math.random()*10)-5;
+              const D = b*b-4*a*c;
+              let answer;
+              if(D<0) answer="Нет действительных корней";
+              else if(D===0) answer=(-b/(2*a)).toFixed(2);
+              else answer=`${((-b+Math.sqrt(D))/(2*a)).toFixed(2)}, ${((-b-Math.sqrt(D))/(2*a)).toFixed(2)}`;
+              return {text:`Решите уравнение: <b>${a}x²${b>=0?'+':''}${b}x${c>=0?'+':''}${c}=0</b>`, answer, explanation:`Дискриминант D=${D}. Корни: ${answer}`};
+            } else if(lvl<7) {
+              // Степени и корни
+              const base = Math.floor(Math.random()*10)+2;
+              const exp = Math.floor(Math.random()*2)+2;
+              return {text:`Вычислите: <b>√${Math.pow(base,2)}</b>`, answer:base, explanation:`Корень из ${Math.pow(base,2)} = ${base}`};
+            } else {
+              // Тригонометрия
+              return {text:`Вычислите: <b>sin(90°)</b>`, answer:1, explanation:`sin(90°) = 1`};
+            }
+          }}
+        ]
+      }
+    ];
+
+    // Рендеринг
+    const app = document.getElementById('app');
+    let state = { step: "welcome" };
+
+    function render() {
+      if(state.step==="welcome") {
+        app.innerHTML = `
+          <div class="main-card">
+            <div class="main-title">Добро пожаловать на Axel!</div>
+            <div class="main-desc">Это оригинальный способ подготовиться к экзамену по математике. Вас ждут интерактивные задания, уникальные методы обучения и увлекательные задачи!</div>
+            <button class="btn btn-enter" id="btnEnter">Войти</button>
+          </div>
+        `;
+        document.getElementById('btnEnter').onclick = () => {
+          state.step = "sections";
+          render();
+        };
+      } else if(state.step==="sections") {
+        app.innerHTML = `
+          <div class="main-card">
+            <div class="main-title">Выберите раздел</div>
+            <div class="section-list">
+              ${sections.map((s,i)=>`
+                <div class="section-card">
+                  <div class="section-title">${s.title}</div>
+                  <div class="section-desc">${s.desc}</div>
+                  <button class="btn-section" data-idx="${i}">Войти в раздел</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        document.querySelectorAll('.btn-section').forEach(btn=>{
+          btn.onclick = () => {
+            state.section = +btn.dataset.idx;
+            state.step = "options";
+            render();
+          };
+        });
+      } else if(state.step==="options") {
+        app.innerHTML = `
+          <div class="main-card">
+            <div class="main-title">${sections[state.section].title}</div>
+            <div class="section-desc">${sections[state.section].desc}</div>
+            <div class="options-list">
+              ${Array.from({length:6}).map((_,i)=>`
+                <div class="option-card" data-idx="${i}">Опция ${i+1}</div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        document.querySelectorAll('.option-card').forEach(btn=>{
+          btn.onclick = () => {
+            state.option = +btn.dataset.idx;
+            state.taskIdx = 0;
+            state.step = "task";
+            render();
+          };
+        });
+      } else if(state.step==="task") {
+        // Генерируем задание
+        const lvl = state.taskIdx;
+        const taskGen = sections[state.section].tasks[0].gen;
+        const task = taskGen(lvl);
+        app.innerHTML = `
+          <div class="main-card">
+            <div class="main-title">Задание ${state.taskIdx+1} из 10</div>
+            <div class="task-card">
+              <div class="task-title">${task.text}</div>
+              <input class="task-input" id="taskInput" autocomplete="off" />
+              <button class="btn-check" id="btnCheck">Проверить</button>
+              <div id="taskResult"></div>
+            </div>
+          </div>
+        `;
+        document.getElementById('btnCheck').onclick = () => {
+          const val = document.getElementById('taskInput').value.trim();
+          let correct = false;
+          if(typeof task.answer === "number") correct = Number(val) === task.answer;
+          else correct = val === String(task.answer);
+          const result = document.getElementById('taskResult');
+          if(correct) {
+            result.innerHTML = `<button class="btn-next" id="btnNext">Продолжить</button>`;
+            document.getElementById('btnNext').onclick = () => {
+              if(state.taskIdx<9) {
+                state.taskIdx++;
+                render();
+              } else {
+                state.step = "options";
+                render();
+              }
+            };
+          } else {
+            result.innerHTML = `<div class="explanation">Неправильно! ${task.explanation}</div>`;
+          }
+        };
+      }
+    }
+    render();
+  </script>
+</body>
+</html>
